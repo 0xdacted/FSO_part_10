@@ -1,5 +1,6 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
+import ItemDetail from './itemDetail';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,29 +49,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  itemDetails: {
-    flexDirection: 'column',
-    alignItems: 'center', 
-    margin: 10, 
-  },
-  itemCount: {
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  itemTitle: {
-    color: 'gray',
-    fontSize: 16,
-    marginTop: 5, 
-  },
 });
-
-const formatCount = (count) => {
-  return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count.toString();
-};
 
 const RepositoryItem = ({ item }) => {
   return (
-  <View style={styles.container}>
+  <ScrollView style={styles.container}>
     <View style={styles.header}>
       <Image style={styles.avatar} source={{ uri: item.ownerAvatarUrl }} />
       <View style={styles.infoContainer}>
@@ -80,24 +63,12 @@ const RepositoryItem = ({ item }) => {
       </View>
     </View>
     <View style={styles.itemDetailsContainer}>
-      <View style={styles.itemDetails}>
-        <Text style={styles.itemCount}>{formatCount(item.stargazersCount)}</Text>
-        <Text style={styles.itemTitle}>Stars</Text>
-      </View>
-      <View style={styles.itemDetails}>
-        <Text style={styles.itemCount}>{formatCount(item.forksCount)}</Text>
-        <Text style={styles.itemTitle}>Forks</Text>
-      </View>
-      <View style={styles.itemDetails}>
-        <Text style={styles.itemCount}>{formatCount(item.reviewCount)}</Text>
-        <Text style={styles.itemTitle}>Reviews</Text>
-      </View>
-      <View style={styles.itemDetails}>
-        <Text style={styles.itemCount}>{item.ratingAverage}</Text>
-        <Text style={styles.itemTitle}>Rating</Text>
-      </View>
+      <ItemDetail count={item.stargazersCount} title="Stars" />
+      <ItemDetail count={item.forksCount} title="Forks" />
+      <ItemDetail count={item.reviewCount} title="Reviews" />
+      <ItemDetail count={item.ratingAverage} title="Rating" />
     </View>
-  </View>
+  </ScrollView>
 );
 };
 
