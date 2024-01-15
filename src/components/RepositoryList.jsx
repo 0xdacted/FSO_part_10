@@ -14,7 +14,7 @@ const RepositoryList = () => {
   const [repositories, setRepositories] = useState();
 
   const fetchRepositories = async () => {
-    const response = await fetch('http://http://192.168.1.149:5001/api/repositories');
+    const response = await fetch('http://192.168.1.149:5001/api/repositories');
     const json = await response.json();
 
     console.log(json);
