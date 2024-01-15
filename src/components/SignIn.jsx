@@ -10,12 +10,6 @@ const styles = StyleSheet.create({
     paddingTop: 12,
     paddingHorizontal: 20,
   },
-  inputField: {
-    padding: 12,
-    borderWidth: 1,  
-    borderColor: 'lightgray', 
-    marginBottom: 10,  
-  },
   button: {
     backgroundColor: 'blue',  
     padding: 10,
@@ -28,31 +22,30 @@ const styles = StyleSheet.create({
   }
 });
 
+const validationSchema = Yup.object({
+  username: Yup.string().required('Username is Required'),
+  password: Yup.string().required('Password is Required'),
+});
+
+
 const SignIn = () => {
   return (
     <View style={styles.container}>
       <Formik
         initialValues={{ username: '', password: '' }}
-        validationSchema={Yup.object({
-          username: Yup.string().required('Required'),
-          password: Yup.string().required('Required'),
-        })}
+        validationSchema={validationSchema}
         onSubmit={(values, formikHelpers) => {
           console.log(values);
         }}
       >
         {({ handleSubmit }) => (
-          <>
-            <View style={styles.inputField}>
-              <FormikTextInput name="username" placeholder="Username" />
-            </View>
-            <View style={styles.inputField}>
-              <FormikTextInput name="password" placeholder="Password" secureTextEntry />
-            </View>
+          <View>
+            <FormikTextInput name="username" placeholder="Username" />
+            <FormikTextInput name="password" placeholder="Password" secureTextEntry />
             <TouchableOpacity style={styles.button} onPress={handleSubmit}>
               <Text style={styles.buttonText}>Sign In</Text>
             </TouchableOpacity>
-          </>
+          </View>
         )}
       </Formik>
     </View>
