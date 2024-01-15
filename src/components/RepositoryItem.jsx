@@ -53,12 +53,20 @@ const styles = StyleSheet.create({
     alignItems: 'center', 
     margin: 10, 
   },
+  itemCount: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
   itemTitle: {
     color: 'gray',
     fontSize: 16,
     marginTop: 5, 
   },
 });
+
+const formatCount = (count) => {
+  return count >= 1000 ? `${(count / 1000).toFixed(1)}k` : count.toString();
+};
 
 const RepositoryItem = ({ item }) => {
   return (
@@ -73,19 +81,19 @@ const RepositoryItem = ({ item }) => {
     </View>
     <View style={styles.itemDetailsContainer}>
       <View style={styles.itemDetails}>
-        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.stargazersCount}</Text>
+        <Text style={styles.itemCount}>{formatCount(item.stargazersCount)}</Text>
         <Text style={styles.itemTitle}>Stars</Text>
       </View>
       <View style={styles.itemDetails}>
-        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.forksCount}</Text>
+        <Text style={styles.itemCount}>{formatCount(item.forksCount)}</Text>
         <Text style={styles.itemTitle}>Forks</Text>
       </View>
       <View style={styles.itemDetails}>
-        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.reviewCount}</Text>
+        <Text style={styles.itemCount}>{formatCount(item.reviewCount)}</Text>
         <Text style={styles.itemTitle}>Reviews</Text>
       </View>
       <View style={styles.itemDetails}>
-        <Text style={{ fontWeight: 'bold', fontSize: 16 }}>{item.ratingAverage}</Text>
+        <Text style={styles.itemCount}>{item.ratingAverage}</Text>
         <Text style={styles.itemTitle}>Rating</Text>
       </View>
     </View>
