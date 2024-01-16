@@ -14,9 +14,13 @@ const styles = StyleSheet.create({
 const AppBarTab = ({ tabText, route }) => {
   return (
     <View>
-      <Link to={route}>
+      {route ? (
+        <Link to={route}>
+          <Text style={styles.text}>{tabText}</Text>
+        </Link>
+      ) : (
         <Text style={styles.text}>{tabText}</Text>
-      </Link>
+      )}
     </View>
   );
 };
