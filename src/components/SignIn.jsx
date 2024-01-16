@@ -3,6 +3,7 @@ import { Formik } from 'formik';
 import { View, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import * as Yup from 'yup';
 import FormikTextInput from './FormikTextInput';
+import useSignIn from '../hooks/useSignIn';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,27 +30,39 @@ const validationSchema = Yup.object({
 
 
 const SignIn = () => {
-  return (
-    <View style={styles.container}>
-      <Formik
-        initialValues={{ username: '', password: '' }}
-        validationSchema={validationSchema}
-        onSubmit={(values, formikHelpers) => {
-          console.log(values);
-        }}
-      >
-        {({ handleSubmit }) => (
-          <View>
-            <FormikTextInput name="username" placeholder="Username" />
-            <FormikTextInput name="password" placeholder="Password" secureTextEntry />
-            <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-              <Text style={styles.buttonText}>Sign In</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      </Formik>
-    </View>
-  );
+    const [signIn] = useSignIn(); 
+
+    const onSubmit = async (values) => {
+        const { username, password } = values;
+
+        try {
+            const { data } = await signIn({ username, password });
+            console.log(data);
+
+        } catch (e) {
+            console.error(e);
+        }
+    };
+
+    return (
+        <View style={styles.container}>
+            <Formik
+                initialValues={{ username: '', password: '' }}
+                validationSchema={validationSchema}
+                onSubmit={onSubmit} 
+            >
+                {({ handleSubmit }) => (
+                    <View>
+                        <FormikTextInput name="username" placeholder="Username" />
+                        <FormikTextInput name="password" placeholder="Password" secureTextEntry />
+                        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                            <Text style={styles.buttonText}>Sign In</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+            </Formik>
+        </View>
+    );
 };
 
 export default SignIn;
