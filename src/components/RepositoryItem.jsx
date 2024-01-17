@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, ScrollView, Pressable } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView, Pressable, Linking } from 'react-native';
 import { useNavigate } from 'react-router-native';
 import ItemDetail from './itemDetail';
 
