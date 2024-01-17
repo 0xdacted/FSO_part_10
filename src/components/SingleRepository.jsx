@@ -36,6 +36,7 @@ const SingleRepository = () => {
   const { id } = useParams();
 
   const { data, loading, error } = useQuery(SINGLE_REPOSITORY, {
+    fetchPolicy: 'cache-and-network',
     variables: { id },
   });
 
