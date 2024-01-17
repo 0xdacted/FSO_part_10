@@ -16,12 +16,14 @@ const ReviewItem = ({ review }) => {
         <Text style={styles.rating}>{review.node.rating}</Text>
       </View>
       <View style={styles.reviewTextContainer}>
-        <Text style={styles.username}>
-          {review.node.user.username}
-        </Text>
-        <Text style={styles.createdAt}>
-          {review.node.createdAt}
-        </Text>
+        <View style={styles.userAndDateContainer}>
+          <Text style={styles.username}>
+            {review.node.user.username}
+          </Text>
+          <Text style={styles.createdAt}>
+            {review.node.createdAt}
+          </Text>
+        </View>
         <Text>
           {review.node.text}
         </Text>
@@ -58,6 +60,7 @@ const styles = StyleSheet.create({
   reviewItem: {
     backgroundColor: '#ffffff',
     padding: 10,
+    flexDirection: 'row', // Align children in a row
     borderBottomWidth: 1,
     borderColor: '#e1e4e8',
   },
@@ -71,12 +74,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
   },
-  rating: {
-    color: '#0366d6',
-    fontWeight: 'bold',
-  },
   reviewTextContainer: {
-    flex: 1,
+    flex: 1, // Take up remaining space
+    justifyContent: 'center', // Center vertically within the column
+  },
+  userAndDateContainer: {
+    marginBottom: 5, // Space between the date and the review text
   },
   username: {
     fontWeight: 'bold',
