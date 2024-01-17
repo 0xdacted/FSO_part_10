@@ -42,6 +42,20 @@ export const SINGLE_REPOSITORY = gql`
       forksCount
       reviewCount
       ratingAverage
+      reviews {
+        edges {
+          node {
+            id
+            text
+            rating
+            createdAt
+            user {
+              id
+              username
+            }
+          }
+        }
+      }
     }
   }
 `;
