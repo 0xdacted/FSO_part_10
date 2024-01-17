@@ -1,6 +1,6 @@
 import React from 'react';
 import { useParams } from 'react-router-native';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, StyleSheet } from 'react-native';
 import { useQuery } from '@apollo/client';
 import RepositoryItem from './RepositoryItem';
 import { SINGLE_REPOSITORY } from '../graphql/queries';
@@ -11,15 +11,15 @@ const RepositoryInfo = ({ repository }) => {
 
 const ReviewItem = ({ review }) => {
   return (
-    <View>
-      <View>
-        <Text>{review.node.rating}</Text>
+    <View style={styles.reviewItem}>
+      <View style={styles.ratingContainer}>
+        <Text style={styles.rating}>{review.node.rating}</Text>
       </View>
-      <View>
-        <Text>
+      <View style={styles.reviewTextContainer}>
+        <Text style={styles.username}>
           {review.node.user.username}
         </Text>
-        <Text>
+        <Text style={styles.createdAt}>
           {review.node.createdAt}
         </Text>
         <Text>
@@ -30,7 +30,6 @@ const ReviewItem = ({ review }) => {
   )
 };
 
-
 const SingleRepository = () => {
   const { id } = useParams();
 
@@ -38,8 +37,8 @@ const SingleRepository = () => {
     variables: { id },
   });
 
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error: {error.message}</Text>;
+  if (loading) return <Text style={styles.loading}>Loading...</Text>;
+  if (error) return <Text style={styles.error}>Error: {error.message}</Text>;
 
   return (
     <FlatList
@@ -47,8 +46,55 @@ const SingleRepository = () => {
       renderItem={({ item }) => <ReviewItem review={item} />}
       keyExtractor={({ id }) => id}
       ListHeaderComponent={() => <RepositoryInfo repository={data.repository} />}
+      style={styles.container}
     />
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#e1e4e8',
+  },
+  reviewItem: {
+    backgroundColor: '#ffffff',
+    padding: 10,
+    borderBottomWidth: 1,
+    borderColor: '#e1e4e8',
+  },
+  ratingContainer: {
+    borderWidth: 2,
+    borderColor: '#0366d6',
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+  rating: {
+    color: '#0366d6',
+    fontWeight: 'bold',
+  },
+  reviewTextContainer: {
+    flex: 1,
+  },
+  username: {
+    fontWeight: 'bold',
+  },
+  createdAt: {
+    color: '#586069',
+    fontSize: 12,
+    marginBottom: 5,
+  },
+  loading: {
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  error: {
+    textAlign: 'center',
+    color: 'red',
+    marginTop: 20,
+  },
+});
 
 export default SingleRepository;
