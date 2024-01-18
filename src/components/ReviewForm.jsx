@@ -3,6 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import { CREATE_REVIEW_MUTATION } from '../graphql/mutations';
 import { useMutation } from '@apollo/client';
+import { useNavigate } from 'react-router-native';
 
 const ReviewFormSchema = Yup.object().shape({
   username: Yup.string().required('Repository owner\'s username is required'),
@@ -11,8 +12,9 @@ const ReviewFormSchema = Yup.object().shape({
   review: Yup.string(),
 });
 
-const ReviewForm = () => {
+const ReviewForm = ({ id }) => {
   const [createReview] = useMutation(CREATE_REVIEW_MUTATION);
+  const navigate = useNavigate();
   return (
      <Formik
       initialValues={{ username: '', repositoryName: '', rating: '', review: '' }}
@@ -30,10 +32,10 @@ const ReviewForm = () => {
           }
         }).then(() => {
           setSubmitting(false);
-          // Handle success (e.g., showing a success message)
+          navigate(`/repository/${id}`)
         }).catch(error => {
+          console.error(error);
           setSubmitting(false);
-          // Handle error (e.g., showing an error message)
         });
       }}
     >
