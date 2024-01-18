@@ -35,25 +35,26 @@ const handleSignOut = async () => {
 };
 
 
-  return (
-    <View style={styles.container}>
-      <ScrollView horizontal>
-        <AppBarTab tabText={'Repositories'} route={'/'} />
+return (
+  <View style={styles.container}>
+    <ScrollView horizontal>
+      <AppBarTab tabText={'Repositories'} route={'/'} />
 
-        {userData && userData.me != null ? (
+      {userData && userData.me != null ? (
+        <>
           <Pressable onPress={() => {
             console.log('Pressable pressed');
             handleSignOut();
           }}>
             <AppBarTab tabText={'Sign Out'} />
           </Pressable>
-        ) : (
-          <AppBarTab tabText={'Sign In'} route={'/signIn'} />
-        )}
-
-      </ScrollView>
-    </View>
+          <AppBarTab tabText={'Create Review'} route={'/createReview'} />
+        </>
+      ) : (
+        <AppBarTab tabText={'Sign In'} route={'/signIn'} />
+      )}
+    </ScrollView>
+  </View>
   );
 };
-
 export default AppBar;
