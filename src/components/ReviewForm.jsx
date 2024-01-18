@@ -1,6 +1,8 @@
 import React from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { CREATE_REVIEW_MUTATION } from '../graphql/mutations';
+import { useMutation } from '@apollo/client';
 
 const ReviewFormSchema = Yup.object().shape({
   username: Yup.string().required('Repository owner\'s username is required'),
@@ -9,17 +11,32 @@ const ReviewFormSchema = Yup.object().shape({
   review: Yup.string(),
 });
 
-const ReviewForm = () => (
-  <Formik
-    initialValues={{ username: '', repositoryName: '', rating: '', review: '' }}
-    validationSchema={ReviewFormSchema}
-    onSubmit={(values, { setSubmitting }) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        setSubmitting(false);
-      }, 400);
-    }}
-  >
+const ReviewForm = () => {
+  const [createReview] = useMutation(CREATE_REVIEW_MUTATION);
+  return (
+     <Formik
+      initialValues={{ username: '', repositoryName: '', rating: '', review: '' }}
+      validationSchema={ReviewFormSchema}
+      onSubmit={(values, { setSubmitting }) => {
+        const { username, repositoryName, rating, review } = values;
+        createReview({
+          variables: {
+            review: {
+              ownerName: username,
+              repositoryName: repositoryName,
+              rating: parseInt(rating, 10),
+              text: review
+            }
+          }
+        }).then(() => {
+          setSubmitting(false);
+          // Handle success (e.g., showing a success message)
+        }).catch(error => {
+          setSubmitting(false);
+          // Handle error (e.g., showing an error message)
+        });
+      }}
+    >
     {({ isSubmitting }) => (
       <Form>
         <Field type="text" name="username" placeholder="GitHub Username" />
@@ -40,6 +57,6 @@ const ReviewForm = () => (
       </Form>
     )}
   </Formik>
-);
+)};
 
 export default ReviewForm;
