@@ -12,7 +12,7 @@ const ReviewFormSchema = Yup.object().shape({
   review: Yup.string(),
 });
 
-const ReviewForm = ({ id }) => {
+const ReviewForm = () => {
   const [createReview] = useMutation(CREATE_REVIEW_MUTATION);
   const navigate = useNavigate();
   return (
@@ -32,7 +32,8 @@ const ReviewForm = ({ id }) => {
           }
         }).then(() => {
           setSubmitting(false);
-          navigate(`/repository/${id}`)
+          const repositoryId = response.data.createReview.repositoryId;
+          navigate(`/repository/${repositoryId}`)
         }).catch(error => {
           console.error(error);
           setSubmitting(false);
